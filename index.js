@@ -35,7 +35,8 @@ wss.on('connection', ws => {
 
     console.log('cliente conectado');
 
-    wss.on('message', (confirmacion) => {
+    ws.on('message', (confirmacion) => {
+      confirmacion = new Boolean(confirmacion);
       if(confirmacion){
         if(preguntaActual === preguntas.length - 1) {
           enviarCliente("Juego finalizado");
@@ -52,10 +53,10 @@ wss.on('connection', ws => {
     
 });
 
-function enviarCliente (message) {
+function enviarCliente (mensaje) {
   wss.clients.forEach( client => {
     if(client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(message));
+      client.send(JSON.stringify(mensaje));
     }
   })
-}
+};
